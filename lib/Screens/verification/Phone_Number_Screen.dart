@@ -13,35 +13,30 @@ class PhoneNumberScreen extends StatefulWidget {
 }
 
 class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
+  bool loading = false;
   TextEditingController phoneNumberController = TextEditingController();
   FirebaseAuth auth = FirebaseAuth.instance;
-  bool loading = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 182, 92, 122),
-        title: const Text("PHONE NUMBER"),
+        title: const Text('PHONE NUMBER'),
         centerTitle: true,
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 80),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: CustomTextFormField(
-                prefixIcon: Icons.phone_android,
-                controller: phoneNumberController,
-                keyboardType: TextInputType.phone,
-                obscureText: false,
-                labelText: 'Enter Phone Number',
-              ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
+            child: CustomTextFormField(
+              controller: phoneNumberController,
+              keyboardType: TextInputType.phone,
+              labelText: 'Enter Phone Number',
+              prefixIcon: Icons.phone,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
-              child: RoundedButton(
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+            child: RoundedButton(
                 loading: loading,
                 title: 'Verify',
                 ontap: () {
@@ -56,32 +51,31 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                         });
                       },
                       verificationFailed: (e) {
-                        Uitles().meesage(e.toString());
                         setState(() {
                           loading = false;
                         });
+                        Uitles().meesage(e.toString());
                       },
                       codeSent: (String verificationId, int? token) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => VerificationScreen(
-                                    verificationId: verificationId)));
+                                builder: (context) => CodeVerificationScreen(
+                                      verificationId: verificationId,
+                                    )));
                         setState(() {
                           loading = false;
                         });
                       },
                       codeAutoRetrievalTimeout: (e) {
                         Uitles().meesage(e.toString());
+                        setState(() {
+                          loading = false;
+                        });
                       });
-                  setState(() {
-                    loading = false;
-                  });
-                },
-              ),
-            ),
-          ],
-        ),
+                }),
+          )
+        ],
       ),
     );
   }
