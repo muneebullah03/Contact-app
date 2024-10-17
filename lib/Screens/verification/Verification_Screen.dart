@@ -46,8 +46,10 @@ class _VerificationScreenState extends State<CodeVerificationScreen> {
                       smsCode: OTPVerificationController.text);
                   try {
                     await auth.signInWithCredential(cradential);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeScreen()));
                   } catch (e) {
                     setState(() {
                       loading = false;

@@ -1,20 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase1/Utiles/message_Utiles.dart';
 import 'package:firebase1/constant/RoundedButton.dart';
 import 'package:firebase1/constant/textformfeild.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class PostScreen extends StatefulWidget {
-  const PostScreen({super.key});
+class FirestorePostScreen extends StatefulWidget {
+  const FirestorePostScreen({super.key});
 
   @override
-  State<PostScreen> createState() => _PostScreenState();
+  State<FirestorePostScreen> createState() => _PostScreenState();
 }
 
-class _PostScreenState extends State<PostScreen> {
+class _PostScreenState extends State<FirestorePostScreen> {
   TextEditingController postContoller = TextEditingController();
-
-  final databaseRef = FirebaseDatabase.instance.ref('Post');
+  final fireStoreRef = FirebaseFirestore.instance.collection('users');
 
   bool loading = false;
   @override
@@ -22,7 +21,7 @@ class _PostScreenState extends State<PostScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 182, 92, 122),
-        title: const Text('POST SCREEN'),
+        title: const Text('FIRESTORE SCREEN'),
         centerTitle: true,
       ),
       body: Column(
@@ -44,16 +43,16 @@ class _PostScreenState extends State<PostScreen> {
                   setState(() {
                     loading = true;
                   });
-                  String id = DateTime.now().millisecond.toString();
-                  databaseRef.child(id).set({
-                    'id': id,
-                    'title': postContoller.text.toString()
+                  final id = DateTime.now().microsecondsSinceEpoch.toString();
+                  fireStoreRef.doc(id).set({
+                    'title': postContoller.text.toString(),
+                    'id': id
                   }).then((value) {
                     setState(() {
                       loading = false;
                     });
-                    Uitles().meesage('Post added');
                     Navigator.pop(context);
+                    Uitles().meesage('Post added');
                   }).onError(
                     (error, stackTrace) {
                       setState(() {

@@ -1,3 +1,4 @@
+import 'package:firebase1/Screens/Forget_Password_Screen.dart';
 import 'package:firebase1/Screens/Home_Screen.dart';
 import 'package:firebase1/Screens/SignUp_Screen.dart';
 import 'package:firebase1/Screens/verification/Phone_Number_Screen.dart';
@@ -88,6 +89,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ForgetPasswordScreen()));
+                      },
+                      child: const Text('Forgot Password!')),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: CustomTextFormField(

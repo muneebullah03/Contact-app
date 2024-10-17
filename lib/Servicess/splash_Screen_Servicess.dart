@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase1/Screens/Home_Screen.dart';
 import 'package:firebase1/Screens/login_Screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,7 @@ class SplashScreenServicess {
         const Duration(seconds: 3),
         () {
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()));
+              MaterialPageRoute(builder: (context) => const LoginScreen()));
         },
       );
     } else {
